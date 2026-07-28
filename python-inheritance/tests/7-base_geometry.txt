@@ -19,3 +19,18 @@ ValueError: age must be greater than 0
 Traceback (most recent call last):
 ...
 ValueError: distance must be greater than 0
+
+>>> bg.integer_validator("height", 1.5)
+Traceback (most recent call last):
+...
+TypeError: height must be an integer
+
+>>> bg.integer_validator("size", None)
+Traceback (most recent call last):
+...
+TypeError: size must be an integer
+
+>>> bg.area()
+Traceback (most recent call last):
+...
+Exception: area() is not implemented
