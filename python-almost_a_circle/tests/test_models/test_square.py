@@ -9,16 +9,15 @@ from models.square import Square
 
 
 class TestSquare(unittest.TestCase):
-    """Test cases for Square class."""
+    """Unit tests for Square class."""
 
     def setUp(self):
-        """Reset ids before each test."""
+        """Reset Base counter and remove test file."""
         Base._Base__nb_objects = 0
-
         if os.path.exists("Square.json"):
             os.remove("Square.json")
 
-    # ---------- Constructor ----------
+    # ---------------- Constructor ----------------
 
     def test_square_exists(self):
         s = Square(5)
@@ -37,7 +36,7 @@ class TestSquare(unittest.TestCase):
         s = Square(5, 2, 3, 89)
         self.assertEqual(s.id, 89)
 
-    # ---------- Type validation ----------
+    # ---------------- Type validation ----------------
 
     def test_size_string(self):
         with self.assertRaises(TypeError):
@@ -51,7 +50,7 @@ class TestSquare(unittest.TestCase):
         with self.assertRaises(TypeError):
             Square(1, 2, "3")
 
-    # ---------- Value validation ----------
+    # ---------------- Value validation ----------------
 
     def test_size_negative(self):
         with self.assertRaises(ValueError):
@@ -69,7 +68,7 @@ class TestSquare(unittest.TestCase):
         with self.assertRaises(ValueError):
             Square(1, 2, -3)
 
-    # ---------- size ----------
+    # ---------------- Size property ----------------
 
     def test_size_property(self):
         s = Square(5)
@@ -80,19 +79,19 @@ class TestSquare(unittest.TestCase):
         s.size = 10
         self.assertEqual(s.size, 10)
 
-    # ---------- area ----------
+    # ---------------- Area ----------------
 
     def test_area(self):
         s = Square(4)
         self.assertEqual(s.area(), 16)
 
-    # ---------- __str__ ----------
+    # ---------------- __str__ ----------------
 
     def test_str(self):
         s = Square(5, 2, 1, 12)
         self.assertEqual(str(s), "[Square] (12) 2/1 - 5")
 
-    # ---------- update(*args) ----------
+    # ---------------- update(*args) ----------------
 
     def test_update_id(self):
         s = Square(5)
@@ -113,43 +112,32 @@ class TestSquare(unittest.TestCase):
     def test_update_all_args(self):
         s = Square(5)
         s.update(89, 10, 3, 4)
+        self.assertEqual((s.id, s.size, s.x, s.y), (89, 10, 3, 4))
 
-        self.assertEqual(
-            (s.id, s.size, s.x, s.y),
-            (89, 10, 3, 4)
-        )
-
-    # ---------- update(**kwargs) ----------
+    # ---------------- update(**kwargs) ----------------
 
     def test_update_kwargs(self):
         s = Square(5)
-
         s.update(id=99, size=7, x=2, y=1)
+        self.assertEqual((s.id, s.size, s.x, s.y), (99, 7, 2, 1))
 
-        self.assertEqual(
-            (s.id, s.size, s.x, s.y),
-            (99, 7, 2, 1)
-        )
-
-    # ---------- to_dictionary ----------
+    # ---------------- to_dictionary ----------------
 
     def test_to_dictionary(self):
         s = Square(10, 2, 1, 9)
-
         expected = {
             "id": 9,
             "size": 10,
             "x": 2,
             "y": 1
         }
-
         self.assertEqual(s.to_dictionary(), expected)
 
     def test_dictionary_type(self):
         s = Square(3)
         self.assertIsInstance(s.to_dictionary(), dict)
 
-    # ---------- create ----------
+    # ---------------- create ----------------
 
     def test_create(self):
         s = Square.create(
@@ -162,28 +150,40 @@ class TestSquare(unittest.TestCase):
         )
 
         self.assertIsInstance(s, Square)
+        self.assertEqual((s.id, s.size, s.x, s.y), (89, 6, 3, 4))
 
-        self.assertEqual(
-            (s.id, s.size, s.x, s.y),
-            (89, 6, 3, 4)
-        )
-
-    # ---------- save_to_file ----------
+    # ---------------- save_to_file ----------------
 
     def test_save_to_file_none(self):
+        """Test Square.save_to_file(None)."""
         Square.save_to_file(None)
 
         self.assertTrue(os.path.exists("Square.json"))
 
-    def test_save_to_file(self):
-        s1 = Square(5)
-        s2 = Square(7, 2, 1)
+        with open("Square.json", "r", encoding="utf-8") as file:
+            self.assertEqual(file.read(), "[]")
 
-        Square.save_to_file([s1, s2])
+    def test_save_to_file_empty_list(self):
+        """Test Square.save_to_file([])."""
+        Square.save_to_file([])
 
         self.assertTrue(os.path.exists("Square.json"))
 
-    # ---------- load_from_file ----------
+        with open("Square.json", "r", encoding="utf-8") as file:
+            self.assertEqual(file.read(), "[]")
+
+    def test_save_to_file_one_square(self):
+        """Test Square.save_to_file([Square(1)])."""
+        s = Square(1)
+
+        Square.save_to_file([s])
+
+        self.assertTrue(os.path.exists("Square.json"))
+
+        with open("Square.json", "r", encoding="utf-8") as file:
+            self.assertNotEqual(file.read(), "")
+
+    # ---------------- load_from_file ----------------
 
     def test_load_no_file(self):
         if os.path.exists("Square.json"):
@@ -204,7 +204,7 @@ class TestSquare(unittest.TestCase):
         self.assertIsInstance(squares[1], Square)
 
     def tearDown(self):
-        """Delete generated files."""
+        """Remove generated files."""
         if os.path.exists("Square.json"):
             os.remove("Square.json")
 

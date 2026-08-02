@@ -1,6 +1,6 @@
 # Python - Almost a Circle
 
-## 📖 Description
+##  Description
 
 This project is part of the **Higher Level Programming** curriculum.
 
@@ -20,7 +20,7 @@ The project implements a simple geometry library containing `Rectangle` and `Squ
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 python-almost_a_circle/
@@ -43,7 +43,7 @@ python-almost_a_circle/
 
 ---
 
-## 📚 Concepts Covered
+##  Concepts Covered
 
 - Python Classes
 - Object-Oriented Programming (OOP)
@@ -63,7 +63,7 @@ python-almost_a_circle/
 
 ---
 
-## 📄 Files
+##  Files
 
 | File | Description |
 |------|-------------|
