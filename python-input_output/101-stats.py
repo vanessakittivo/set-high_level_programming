@@ -33,15 +33,18 @@ try:
         parts = line.split()
 
         try:
-            status = int(parts[-2])
             size = int(parts[-1])
-
-            if status in status_codes:
-                status_codes[status] += 1
-
             total_size += size
         except (ValueError, IndexError):
             continue
+
+        try:
+            status = int(parts[-2])
+
+            if status in status_codes:
+                status_codes[status] += 1
+        except (ValueError, IndexError):
+            pass
 
         line_count += 1
 
