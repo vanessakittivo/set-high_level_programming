@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Read stdin line by line and compute metrics.
-"""
+"""Log parsing script."""
 
 import sys
 
@@ -34,24 +32,24 @@ try:
     for line in sys.stdin:
         parts = line.split()
 
-        if len(parts) < 7:
-            continue
-
         try:
             status = int(parts[-2])
-            file_size = int(parts[-1])
+            size = int(parts[-1])
+
+            if status in status_codes:
+                status_codes[status] += 1
+
+            total_size += size
         except (ValueError, IndexError):
             continue
 
-        if status in status_codes:
-            status_codes[status] += 1
-
-        total_size += file_size
         line_count += 1
 
-        if line_count == 10:
+        if line_count % 10 == 0:
             print_stats()
-            line_count = 0
 
 except KeyboardInterrupt:
     print_stats()
+else:
+    if line_count % 10 != 0 or line_count == 0:
+        print_stats()
