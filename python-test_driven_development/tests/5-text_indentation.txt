@@ -1,0 +1,36 @@
+>>> text_indentation = __import__('5-text_indentation').text_indentation
+>>> import io
+>>> from contextlib import redirect_stdout
+>>> output = io.StringIO()
+>>> with redirect_stdout(output):
+...     text_indentation("Hello. How are you?")
+>>> output.getvalue()
+'Hello.\n\nHow are you?\n'
+>>> output = io.StringIO()
+>>> with redirect_stdout(output):
+...     text_indentation("Python: is fun.")
+>>> output.getvalue()
+'Python:\n\nis fun.\n'
+>>> output = io.StringIO()
+>>> with redirect_stdout(output):
+...     text_indentation("What? Yes!")
+>>> output.getvalue()
+'What?\n\nYes!\n'
+>>> output = io.StringIO()
+>>> with redirect_stdout(output):
+...     text_indentation("Hello")
+>>> output.getvalue()
+'Hello\n'
+>>> output = io.StringIO()
+>>> with redirect_stdout(output):
+...     text_indentation("")
+>>> output.getvalue()
+''
+>>> text_indentation(123)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
+>>> text_indentation(None)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
