@@ -14,28 +14,22 @@ def text_indentation(text):
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 
-    if not text:
+    if text == "":
         return
 
-    lines = []
-    current = ""
+    result = ""
     skip_spaces = False
 
     for char in text:
         if skip_spaces and char == " ":
             continue
 
-        skip_spaces = False
-
         if char in ".?:":
-            current = current.rstrip()
-            lines.append(current + char)
-            current = ""
+            result += char
+            result += "\n\n"
             skip_spaces = True
         else:
-            current += char
+            result += char
+            skip_spaces = False
 
-    if current.strip():
-        lines.append(current.strip())
-
-    print("\n\n".join(lines))
+    print(result.rstrip())
