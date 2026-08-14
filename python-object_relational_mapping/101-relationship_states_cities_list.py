@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """List all states and their cities."""
-
 import sys
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import joinedload, Session
+from sqlalchemy.orm import Session
 
 from relationship_state import State
 
@@ -18,14 +17,9 @@ if __name__ == "__main__":
     )
 
     with Session(engine) as session:
-        states = (
-            session.query(State)
-            .options(joinedload(State.cities))
-            .order_by(State.id)
-            .all()
-        )
+        states = session.query(State).order_by(State.id).all()
 
         for state in states:
             print("{}: {}".format(state.id, state.name))
-            for city in sorted(state.cities, key=lambda city: city.id):
+            for city in state.cities:
                 print("\t{}: {}".format(city.id, city.name))
