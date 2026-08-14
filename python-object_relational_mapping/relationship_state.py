@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-"""Define the State class with a relationship to City."""
+"""State class with a relationship to City."""
 
 from sqlalchemy.orm import relationship
+
 from model_state import Base, State
 from relationship_city import City
 
 
 State.cities = relationship(
-    "City",
+    City,
     cascade="all, delete, delete-orphan",
-    backref="state"
+    back_populates="state"
 )

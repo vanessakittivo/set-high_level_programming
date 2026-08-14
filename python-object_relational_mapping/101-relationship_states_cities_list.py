@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """List all states and their cities."""
+
 import sys
 
 from sqlalchemy import create_engine
