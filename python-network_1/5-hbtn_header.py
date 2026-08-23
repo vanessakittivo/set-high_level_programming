@@ -1,0 +1,25 @@
+cat > 5-hbtn_header.py << 'EOF'
+#!/usr/bin/python3
+"""
+This script takes in a URL, sends a request, and displays the value of
+X-Request-Id in the response header using requests.
+"""
+
+import requests
+import sys
+
+
+def main():
+    """Fetch and display X-Request-Id header value."""
+    url = sys.argv[1]
+    
+    response = requests.get(url)
+    x_request_id = response.headers.get('X-Request-Id')
+    print(x_request_id)
+
+
+if __name__ == "__main__":
+    main()
+EOF
+
+chmod +x 5-hbtn_header.py
