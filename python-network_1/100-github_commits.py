@@ -1,7 +1,6 @@
-cat > 100-github_commits.py << 'EOF'
 #!/usr/bin/python3
 """
-This script lists 10 commits (from most recent to oldest) of a repository.
+Lists the 10 most recent commits of a repository using the GitHub API.
 """
 
 import requests
@@ -10,23 +9,28 @@ import sys
 
 def main():
     """Fetch and display the 10 most recent commits."""
+    if len(sys.argv) != 3:
+        print("Usage: ./100-github_commits.py <repository> <owner>")
+        sys.exit(1)
+
     repo = sys.argv[1]
     owner = sys.argv[2]
-    
-    url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo)
-    
-    response = requests.get(url, params={'per_page': 10})
-    
-    commits = response.json()
-    
-    for commit in commits:
-        sha = commit.get('sha')
-        author = commit.get('commit').get('author').get('name')
-        print("{}: {}".format(sha, author))
+    url = f"https://api.github.com/repos/{owner}/{repo}/commits"
+
+    try:
+        response = requests.get(url, params={'per_page': 10})
+        response.raise_for_status()
+
+        for commit in response.json():
+            sha = commit.get('sha')
+            author = commit.get('commit', {}).get('author', {})
+            name = author.get('name', 'Unknown')
+            print(f"{sha}: {name}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
     main()
-EOF
-
-chmod +x 100-github_commits.py
