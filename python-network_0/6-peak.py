@@ -8,7 +8,7 @@ def find_peak(list_of_integers):
     """
     Find a peak element in a list of unsorted integers.
 
-    A peak element is an element that is greater than or equal to its neighbors.
+    A peak element is greater than or equal to its neighbors.
 
     Args:
         list_of_integers (list): List of integers
