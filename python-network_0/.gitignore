@@ -1,0 +1,21 @@
+# Virtual Environment
+venv/
+env/
+.env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Server files
+server.py
+app.py
+
+# Test JSON files
+my_json_0
+my_json_1
+*.json
